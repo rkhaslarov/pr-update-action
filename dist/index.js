@@ -8064,6 +8064,7 @@ async function run() {
         replace: processedTitleText,
       })[inputs.titleUpdateAction];
       core.info(`New title: ${request.title}`);
+      core.setOutput('updatedTitle', request.title);
     } else {
       core.warning('No updates were made to PR title');
     }
@@ -8089,6 +8090,7 @@ async function run() {
         replace: processedBodyText,
       })[inputs.bodyUpdateAction];
       core.debug(`New body: ${request.body}`);
+      core.setOutput('updatedBody', request.body);
     } else {
       core.warning('No updates were made to PR body');
     }
