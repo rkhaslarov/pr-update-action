@@ -105,6 +105,7 @@ async function run() {
       core.setOutput('updatedTitle', request.title);
     } else {
       core.warning('No updates were made to PR title');
+      core.setOutput('updatedTitle', title);
     }
 
     const body = github.context.payload.pull_request.body || '';
@@ -131,6 +132,7 @@ async function run() {
       core.setOutput('updatedBody', request.body);
     } else {
       core.warning('No updates were made to PR body');
+      core.setOutput('updatedBody', body);
     }
 
     if (!updateTitle && !updateBody) {
