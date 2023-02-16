@@ -117,7 +117,7 @@ async function run() {
     core.info(`Processed body text: ${processedBodyText}`);
 
     const updateBody = ({
-      include: !body.toLowerCase().includes(processedBodyText.toLowerCase()),
+      include: !body.replace(/\s/g, '').toLowerCase().includes(processedBodyText.replace(/\s/g, '').toLowerCase()),
       prefix: !body.toLowerCase().startsWith(processedBodyText.toLowerCase()),
       suffix: !body.toLowerCase().endsWith(processedBodyText.toLowerCase()),
       replace: body.toLowerCase() !== processedBodyText.toLowerCase(),
