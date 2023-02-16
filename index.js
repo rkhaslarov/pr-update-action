@@ -112,9 +112,12 @@ async function run() {
     const processedBodyText = inputs.bodyTemplate
       .replace(baseTokenRegex, upperCase(inputs.bodyUppercaseBaseMatch, matches.baseMatch))
       .replace(headTokenRegex, upperCase(inputs.bodyUppercaseHeadMatch, matches.headMatch));
+
+    core.info(`Raw body text: ${body}`);
     core.info(`Processed body text: ${processedBodyText}`);
 
     const updateBody = ({
+      includes: !body.toLowerCase().includes(processedBodyText.toLowerCase()),
       prefix: !body.toLowerCase().startsWith(processedBodyText.toLowerCase()),
       suffix: !body.toLowerCase().endsWith(processedBodyText.toLowerCase()),
       replace: body.toLowerCase() !== processedBodyText.toLowerCase(),
@@ -124,12 +127,13 @@ async function run() {
 
     if (updateBody) {
       request.body = ({
+        includes: body.concat('\n'.repeat(inputs.bodyNewlineCount), processedBodyText),
         prefix: processedBodyText.concat('\n'.repeat(inputs.bodyNewlineCount), body),
         suffix: body.concat('\n'.repeat(inputs.bodyNewlineCount), processedBodyText),
         replace: processedBodyText,
       })[inputs.bodyUpdateAction];
-      core.debug(`New body: ${request.body}`);
-      core.setOutput('updatedBody', request.body);
+      core.info(`New body: ${request.body[inputs.bodyUpdateAction]}`);
+      core.setOutput('updatedBody', request.body[inputs.bodyUpdateAction]);
     } else {
       core.warning('No updates were made to PR body');
       core.setOutput('updatedBody', body);
