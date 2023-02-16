@@ -117,7 +117,7 @@ async function run() {
     core.info(`Processed body text: ${processedBodyText}`);
 
     const updateBody = ({
-      includes: !body.toLowerCase().includes(processedBodyText.toLowerCase()),
+      include: !body.toLowerCase().includes(processedBodyText.toLowerCase()),
       prefix: !body.toLowerCase().startsWith(processedBodyText.toLowerCase()),
       suffix: !body.toLowerCase().endsWith(processedBodyText.toLowerCase()),
       replace: body.toLowerCase() !== processedBodyText.toLowerCase(),
@@ -127,13 +127,13 @@ async function run() {
 
     if (updateBody) {
       request.body = ({
-        includes: body.concat('\n'.repeat(inputs.bodyNewlineCount), processedBodyText),
+        include: body.concat('\n'.repeat(inputs.bodyNewlineCount), processedBodyText),
         prefix: processedBodyText.concat('\n'.repeat(inputs.bodyNewlineCount), body),
         suffix: body.concat('\n'.repeat(inputs.bodyNewlineCount), processedBodyText),
         replace: processedBodyText,
       })[inputs.bodyUpdateAction];
-      core.info(`New body: ${request.body[inputs.bodyUpdateAction]}`);
-      core.setOutput('updatedBody', request.body[inputs.bodyUpdateAction]);
+      core.info(`New body: ${request.body}`);
+      core.setOutput('updatedBody', request.body);
     } else {
       core.warning('No updates were made to PR body');
       core.setOutput('updatedBody', body);
