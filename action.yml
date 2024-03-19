@@ -60,6 +60,10 @@ inputs:
     description: "Should uppercase matched text from head branch in body"
     required: false
     default: "true"
+  fail-in-progress:
+    description: "Should the action fail or not"
+    required: false
+    default: "true"
 outputs:
   baseMatch:
     description: "Matched text from base branch if any"

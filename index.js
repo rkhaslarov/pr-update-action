@@ -10,6 +10,7 @@ async function run() {
       token: core.getInput('repo-token', {required: true}),
       baseBranchRegex: core.getInput('base-branch-regex'),
       headBranchRegex: core.getInput('head-branch-regex'),
+      failInProgress: (core.getInput('fail-in-progress').toLowerCase() === 'true'),
       lowercaseBranch: (core.getInput('lowercase-branch').toLowerCase() === 'true'),
       titleTemplate: core.getInput('title-template'),
       titleUpdateAction: core.getInput('title-update-action').toLowerCase(),
@@ -46,7 +47,7 @@ async function run() {
 
       const baseMatches = baseBranch.match(new RegExp(baseBranchRegex));
       if (!baseMatches) {
-        core.setFailed('Base branch name does not match given regex');
+        inputs.failInProgress && core.setFailed('Base branch name does not match given regex');
         return;
       }
 
@@ -63,7 +64,7 @@ async function run() {
 
       const headMatches = headBranch.match(new RegExp(headBranchRegex));
       if (!headMatches) {
-        core.setFailed('Head branch name does not match given regex');
+        inputs.failInProgress && core.setFailed('Head branch name does not match given regex');
         return;
       }
 
