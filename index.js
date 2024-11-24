@@ -105,7 +105,7 @@ async function run() {
       core.info(`New title: ${request.title}`);
       core.setOutput('updatedTitle', request.title);
     } else {
-      core.warning('No updates were made to PR title');
+      core.notice('No updates were made to PR title');
       core.setOutput('updatedTitle', title);
     }
 
@@ -136,7 +136,7 @@ async function run() {
       core.info(`New body: ${request.body}`);
       core.setOutput('updatedBody', request.body);
     } else {
-      core.warning('No updates were made to PR body');
+      core.notice('No updates were made to PR body');
       core.setOutput('updatedBody', body);
     }
 
